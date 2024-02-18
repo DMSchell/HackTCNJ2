@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin:  0;
     padding:  0;
-    background-color: #000000; /* This line sets the background color to black Yeah no duh sherlock */
+    
 }
 header {
     background-color: #f8f9fa;
@@ -25,7 +25,7 @@ header {
 }
 nav {
     background-color: #000000;
-    color: black;
+    color: white;
     padding:  15px;
 }
 nav ul {
@@ -55,6 +55,7 @@ footer {
     background-color: #000000;
     padding:  20px;
     text-align: center;
+    color: #ffffff; /* This line sets the text color to white */
 }
 
 .text-box-container {
@@ -101,6 +102,7 @@ footer {
     height: 120px;
     background-color: #343a40;
     border-radius: 0px 0px 0px 5px;
+    text-align: left;
     cursor: move;
 }
 
