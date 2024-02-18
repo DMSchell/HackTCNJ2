@@ -1,10 +1,10 @@
 
-import { GoogleGenerativeAI } from "@google/generative-ai";
+/*import { GoogleGenerativeAI } from "@google/generative-ai";
  
 const Your_API_Key = "AIzaSyDCKm38Gqmwu1YywB6paoSkVXlJ-qLHKUk"
 const genAI = new GoogleGenerativeAI(Your_API_Key);
 
-
+*/
 var NoteContainer = document.getElementById('container');
 var DragTarget = null;
 
@@ -139,6 +139,7 @@ function MakeNewNote() {
     
     // Attach the event listener to the button
     // LOOK AT POSSIBLE ERRORS YOU FOOL
+    /*
     button.addEventListener("click", send_text_to_ai);
     function send_text_to_ai() {
         // THIS COULD BE AN ERROR THAT NEW NOW IS IN QUOTES
@@ -146,9 +147,10 @@ function MakeNewNote() {
         note_text = note_text.replace('AI Expand', '');
         document.getElementById("new-note").innerText = run(note_text);
     }
+    */
     
 }
-
+/*
 async function run(input) {
   // For text-only input, use the gemini-pro model
   const model = genAI.getGenerativeModel({ model: "gemini-pro"});
@@ -162,7 +164,7 @@ async function run(input) {
   const text = response.text();
   return text;
 }
-
+*/
 var UserName = null;
 function Save() {
     if (UserName){
