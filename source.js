@@ -110,6 +110,105 @@ document.addEventListener('contextmenu', function(event) {
     MakeNewNote();
 });
 
+function createArrow(startX, startY, endX, endY) {
+    // Create an SVG element
+    var svgNS = "http://www.w3.org/2000/svg";
+    var svg = document.createElementNS(svgNS, "svg");
+    svg.setAttribute('width', '100%');
+    svg.setAttribute('height', '100%');
+
+    // Create a line element for the arrow
+    var line = document.createElementNS(svgNS, "line");
+    line.setAttribute('x1', startX);
+    line.setAttribute('y1', startY);
+    line.setAttribute('x2', endX);
+    line.setAttribute('y2', endY);
+    line.setAttribute('stroke', 'black');
+    line.setAttribute('stroke-width', '2');
+    line.setAttribute('marker-end', 'url(#arrowhead)');
+
+    // Create a marker for the arrowhead
+    var marker = document.createElementNS(svgNS, "marker");
+    marker.setAttribute('id', 'arrowhead');
+    marker.setAttribute('viewBox', '0  0  10  10');
+    marker.setAttribute('refX', '10');
+    marker.setAttribute('refY', '5');
+    marker.setAttribute('markerWidth', '6');
+    marker.setAttribute('markerHeight', '6');
+    marker.setAttribute('orient', 'auto');
+
+    var path = document.createElementNS(svgNS, "path");
+    path.setAttribute('d', 'M  0  0 L  10  5 L  0  10 z');
+    path.setAttribute('fill', 'black');
+
+    marker.appendChild(path);
+    svg.appendChild(marker);
+    svg.appendChild(line);
+
+    // Append the SVG to the body or a container element
+    document.body.appendChild(svg);
+}
+
+// Function to handle dragging of an arrow
+function handleArrowDrag(event) {
+    var arrow = event.target;
+    var startMousePos = { x: event.clientX, y: event.clientY };
+    var startArrowPos = { x: arrow.getAttribute('x1'), y: arrow.getAttribute('y1') };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+
+    function onMouseMove(event) {
+        var newPosition = {
+            x: startArrowPos.x + (event.clientX - startMousePos.x),
+            y: startArrowPos.y + (event.clientY - startMousePos.y)
+        };
+
+        // Update the arrow's position
+        arrow.setAttribute('x1', newPosition.x);
+        arrow.setAttribute('y1', newPosition.y);
+    }
+
+    function onMouseUp() {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+    }
+}
+
+// Function to handle resizing of an arrow
+function handleArrowResize(event) {
+    var arrow = event.target;
+    var startMousePos = { x: event.clientX, y: event.clientY };
+    var startArrowSize = { width: arrow.getAttribute('stroke-width'), height: arrow.getAttribute('stroke-width') };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+
+    function onMouseMove(event) {
+        var newSize = {
+            width: startArrowSize.width + (event.clientX - startMousePos.x),
+            height: startArrowSize.height + (event.clientY - startMousePos.y)
+        };
+
+        // Update the arrow's size
+        arrow.setAttribute('stroke-width', newSize.width);
+    }
+
+    function onMouseUp() {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+    }
+}
+
+// Add event listeners to the arrow elements
+var arrows = document.querySelectorAll('.arrow'); // Assuming you have a class 'arrow' for your arrows
+arrows.forEach(function(arrow) {
+    arrow.addEventListener('mousedown', handleArrowDrag);
+    arrow.addEventListener('mousedown', handleArrowResize);
+});
+
+// DELETE THIS PROBABLY!!!!!!!!!!!!!
+createArrow(50,  50,  200,  200);
 
 function MakeNewNote() {
     var newNoteDragger = document.createElement('div');
