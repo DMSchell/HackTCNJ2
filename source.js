@@ -150,6 +150,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     var modal = document.getElementById('login-modal');
     modal.style.display = 'none';
 });
+
 //signing up
 function MakeSignupButton() {
     var modal = document.getElementById('signup-modal');
@@ -167,22 +168,6 @@ function MakeSignupButton() {
         }
     }
 }
-document.getElementById('signup-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the form from submitting normally
-
-    // Retrieve the username and password from the form
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
-
-    // You can now use the username and password for authentication
-    console.log('Username:', username);
-    console.log('Password:', password);
-    
-
-    // Close the modal after successful sign up (or handle authentication failure)
-    var modal = document.getElementById('signup-modal');
-    modal.style.display = 'none';
-});
 
 document.getElementById('create-note-button').addEventListener('click', MakeNewNote);
 document.getElementById('create-notebook-button').addEventListener('click', MakeNewNote); //TODO

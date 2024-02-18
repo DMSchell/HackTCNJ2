@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic Website Layout</title>
+    <script src="lib/index.js" type="module"></script>
+    <script src="templates/translator.js" type="module"></script>
 </head>
 <body>
     <header>
@@ -33,6 +35,7 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
                 <button type="submit">Log In</button>
+                <script src="templates/translator.js" type="module"></script>
             </form>
         </div>
     </div>
@@ -40,11 +43,11 @@
         <div class="modal-content">
             <span class="signup-close-button">&times;</span>
             <form id="signup-form">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-                <button type="submit">Sign up</button>
+                <label for="signup-username">Username:</label>
+                <input type="text" id="signup-username" name="signup-username" required>
+                <label for="signup-password">Password:</label>
+                <input type="fpassword" id="signup-password" name="signup-password" required>
+                <button id="signup-submit" type="submit">Sign up</button>
             </form>
         </div>
     </div>
@@ -60,5 +63,4 @@
 </body>
 </html>
 
-<script src="lib/index.js"></script>
 <script src="source.js"></script>
