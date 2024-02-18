@@ -5,22 +5,8 @@ body {
     background-color: #fff; /* Set the background color to black */
 }
 header {
-    background-color: #f8f9fa;
-    color: #343a40;
-    .arrow {
-        position: absolute;
-        cursor: move;
-        border:  1px solid #343a40;
-        background-color: #fff;
-        padding:  5px;
-        z-index:  1000;
-    }
-
-    .arrow.resizable {
-        resize: both;
-        overflow: auto;
-    }
-    padding:  20px;
+    background-color: #343a40;
+    color: #f8f9fa;
     text-align: center;
 }
 nav {
@@ -39,9 +25,16 @@ nav ul div {
 nav ul div li {
     display: inline;
     margin-right:  10px;
-    background-color: #f8f9fa;
-    padding: 10px;
-    border-radius: 10px;
+    color: #f8f9fa;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.newButton:hover {
+    text-shadow:  0  0  10px #fff,  0  0  20px #fff,  0  0  30px #fff,  0  0  40px #fff;
+}
+.notebookButtonSelected {
+    text-shadow:  0  0  10px #fff,  0  0  20px #fff,  0  0  30px #fff,  0  0  40px #fff;
 }
 
 #save {
@@ -90,7 +83,7 @@ footer {
     border:   1px solid #ccc;
     margin:   2 auto;
     margin-bottom:   100px;
-    text-align: left;
+    text-align: center;
     background-color: #fff;
     border-radius:  0px  0px  5px  5px;
     cursor: text;
@@ -120,37 +113,43 @@ footer {
 
 * {
     user-select: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+.context-menu-item {
+    cursor: pointer;
+    transition: text-shadow  0.3s ease;
+}
 
+.context-menu-item:hover {
+    text-shadow:  0  0  10px #fff,  0  0  20px #fff,  0  0  30px #fff,  0  0  40px #fff;
+}
+
+/* The Modal (background) */
 .modal {
-    display: none;
-    position: fixed;
-    z-index:  1;
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index:  1; /* Sit on top */
     left:  0;
     top:  0;
-    width:  100%;
-    height:  100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+    width:  100%; /* Full width */
+    height:  100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   }
   
+  /* Modal Content/Box */
   .modal-content {
-    background-color: #f9f9f9;
-    margin:  15% auto;
+    background-color: #fefefe;
+    margin:  15% auto; /*  15% from the top and centered */
     padding:  20px;
-    border:  1px solid #ccc;
-    width:  80%;
+    border:  1px solid #888;
+    width:  30%; /* Could be more or less, depending on screen size */
   }
   
-  .login-close-button {
-    color: #ccc;
-    float: right;
-    font-size:  28px;
-    font-weight: bold;
-  }
-  .signup-close-button {
-    color: #ccc;
+  /* The Close Button */
+  .close-button {
+    color: #aaa;
     float: right;
     font-size:  28px;
     font-weight: bold;
@@ -158,7 +157,7 @@ footer {
   
   .close-button:hover,
   .close-button:focus {
-    color: #343a40;
+    color: black;
     text-decoration: none;
     cursor: pointer;
   }

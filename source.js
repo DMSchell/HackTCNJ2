@@ -12,6 +12,7 @@ var NoteContainer = document.getElementById('container');
 var DragTarget = null;
 
 const notebooks = [];
+const notebookNames = [];
 notebooks[0] = [];
 var CurrentNotebook = 0;
 
@@ -104,16 +105,36 @@ contextMenu.style.color = '#ccc';
 contextMenu.style.border = '1px solid #ccc';
 contextMenu.style.paddingRight = '25px';
 contextMenu.style.fontSize = '12';
-contextMenu.innerHTML = '<ul><li id="option1">Create a new note</li></ul>';
+contextMenu.innerHTML = '<ul><li class="context-menu-item" id="option1">Create a new note</li><li class="context-menu-item" id="option2">Create a new notebook</li> <li class="context-menu-item" id="option3">Rename notebook</li> </ul>';
 document.body.appendChild(contextMenu);
 
 
 // Add event listeners to the document
 document.addEventListener('contextmenu', function(event) {
     event.preventDefault();
-    MakeNewNote();
+    contextMenu.style.display = 'block'; // Show the custom context menu
+    contextMenu.style.left = event.pageX + 'px'; // Position the menu at the cursor
+    contextMenu.style.top = event.pageY + 'px';
 });
 
+//making a note
+document.getElementById('option1').addEventListener('click', function() {
+    contextMenu.style.display = 'none';
+    MakeNewNote();
+});
+document.getElementById('option2').addEventListener('click', function() {
+    contextMenu.style.display = 'none';
+    MakeNewNotebook();
+});
+document.getElementById('option3').addEventListener('click', function() {
+    contextMenu.style.display = 'none';
+});
+
+document.addEventListener('click', function(event) {
+    if (event.target !== contextMenu && event.target.id !== 'option1') {
+        contextMenu.style.display = 'none';
+    }
+});
 
 
 function MakeNewNote() {
@@ -133,11 +154,6 @@ function MakeNewNote() {
     newNote.appendChild(noteSizer);
 
     notebooks[CurrentNotebook][notebooks[CurrentNotebook].length] = newNoteDragger;
-    
-    var button = document.createElement('button');
-    button.textContent = 'AI Expand'; // Set the button text
-    button.className = 'note-button'; // Add a class for styling
-    newNote.appendChild(button); // Append the button to the note
     
 
     // Set the contenteditable attribute of the parent element to false
@@ -172,196 +188,17 @@ async function run(input) {
   return text;
 }
 */
-var UserName = null;
-function Save() {
-    if (UserName){
-        alert("saved!");
-    } else {
-        alert("you need to sign in");
-    }
-}
-var DragTarget = null;
-var startMousePos = { x:  0, y:  0 };
-var startDivPos = { x:  0, y:  0 };
-
-function createArrow() {
-    var arrow = document.createElement('div');
-    arrow.className = 'arrow resizable';
-    arrow.style.left = '50px';
-    arrow.style.top = '50px';
-    arrow.style.width = '100px';
-    arrow.style.height = '100px';
-    arrow.textContent = 'Arrow';
-    NoteContainer.appendChild(arrow);
-
-    arrow.addEventListener('mousedown', function(event) {
-        if (event.target.classList.contains('arrow')) {
-            DragTarget = event.target;
-            startMousePos = { x: event.clientX, y: event.clientY };
-            startDivPos = { x: DragTarget.offsetLeft, y: DragTarget.offsetTop };
-
-            document.addEventListener('mousemove', onArrowMove);
-            document.addEventListener('mouseup', onArrowUp);
-        }
-    });
-}
-
-function onArrowMove(event) {
-    var newPosition = {
-        x: startDivPos.x + (event.clientX - startMousePos.x),
-        y: startDivPos.y + (event.clientY - startMousePos.y)
-    };
-
-    // Make sure the arrow stays within the container
-    var containerRect = NoteContainer.getBoundingClientRect();
-    if (newPosition.x <   0) {
-        newPosition.x =   0;
-    } else if (newPosition.x + DragTarget.offsetWidth > containerRect.width) {
-        newPosition.x = containerRect.width - DragTarget.offsetWidth;
-    }
-
-    if (newPosition.y <   0) {
-        newPosition.y =   0;
-    } else if (newPosition.y + DragTarget.offsetHeight > containerRect.height) {
-        newPosition.y = containerRect.height - DragTarget.offsetHeight;
-    }
-
-    // Change the position of the arrow
-    DragTarget.style.left = newPosition.x + 'px';
-    DragTarget.style.top = newPosition.y + 'px';
-}
-
-function onArrowUp() {
-    document.removeEventListener('mousemove', onArrowMove);
-    document.removeEventListener('mouseup', onArrowUp);
-}
-
-// Add event listener to create arrows
-document.getElementById('create-arrow-button').addEventListener('click', createArrow);
-function createArrow() {
-    var arrow = document.createElement('div');
-    arrow.className = 'arrow resizable';
-    arrow.style.left = '50px';
-    arrow.style.top = '50px';
-    arrow.style.width = '100px';
-    arrow.style.height = '100px';
-    arrow.textContent = 'Arrow';
-    NoteContainer.appendChild(arrow);
-
-    arrow.addEventListener('mousedown', function(event) {
-        if (event.target.classList.contains('arrow')) {
-            DragTarget = event.target;
-            var startMousePos = { x: event.clientX, y: event.clientY };
-            var startDivPos = { x: DragTarget.offsetLeft, y: DragTarget.offsetTop };
-
-            document.addEventListener('mousemove', onArrowMove);
-            document.addEventListener('mouseup', onArrowUp);
-        }
-    });
-}
-
-function onArrowMove(event) {
-    var newPosition = {
-        x: startDivPos.x + (event.clientX - startMousePos.x),
-        y: startDivPos.y + (event.clientY - startMousePos.y)
-    };
-
-    // Make sure the arrow stays within the container
-    var containerRect = NoteContainer.getBoundingClientRect();
-    if (newPosition.x <   0) {
-        newPosition.x =   0;
-    } else if (newPosition.x + DragTarget.offsetWidth > containerRect.width) {
-        newPosition.x = containerRect.width - DragTarget.offsetWidth;
-    }
-
-    if (newPosition.y <   0) {
-        newPosition.y =   0;
-    } else if (newPosition.y + DragTarget.offsetHeight > containerRect.height) {
-        newPosition.y = containerRect.height - DragTarget.offsetHeight;
-    }
-
-    // Change the position of the arrow
-    DragTarget.style.left = newPosition.x + 'px';
-    DragTarget.style.top = newPosition.y + 'px';
-}
-
-function onArrowUp() {
-    document.removeEventListener('mousemove', onArrowMove);
-    document.removeEventListener('mouseup', onArrowUp);
-}
-
-// Add event listener to create arrows
-document.getElementById('create-arrow-button').addEventListener('click', createArrow);
-//logging in
-function MakeLoginButton() {
-    var modal = document.getElementById('login-modal');
-    var span = document.getElementsByClassName('login-close-button')[0];
-
-
-    modal.style.display = 'block';
-
-
-    span.onclick = function() {
-        modal.style.display = 'none';
-    }
-
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    }
-}
-document.getElementById('login-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the form from submitting normally
-
-
-    // Retrieve the username and password from the form
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
-
-
-    // You can now use the username and password for authentication
-    console.log('Username:', username);
-    console.log('Password:', password);
-
-
-    // Close the modal after successful login (or handle authentication failure)
-    var modal = document.getElementById('login-modal');
-    modal.style.display = 'none';
-});
-
-
-//signing up
-function MakeSignupButton() {
-    var modal = document.getElementById('signup-modal');
-    var span = document.getElementsByClassName('signup-close-button')[0];
-
-
-    modal.style.display = 'block';
-
-
-    span.onclick = function() {
-        modal.style.display = 'none';
-    }
-
-
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = 'none';
-        }
-    }
-}
 
 function MakeNewNotebook(){
     CurrentNotebook = notebooks.length
+    notebookNames[CurrentNotebook] = "notebook";
     notebooks[CurrentNotebook] = [];
     // Clear the container
     var container = document.getElementById('container');
     container.innerHTML = '';
     
     // Set the current notebook
-    console.log('Switched to Notebook ' + (CurrentNotebook +   1));
+    Notebooks();
 }
 
 function Notebooks(){
@@ -372,30 +209,105 @@ function Notebooks(){
 
     // Create a button for each notebook
     notebooks.forEach(function(notebook, index) {
-        var button = document.createElement('button');
-        button.textContent = 'Notebook ' + (index +   1);
-        button.onclick = function() {
-            // Clear the container
-            var container = document.getElementById('container');
-            container.innerHTML = '';
-
-            // Set the current notebook
-            CurrentNotebook = index;
-            
-            notebook.forEach(function(note) {
-                container.appendChild(note);
-
-            });
-        };
-        notebooksMenu.appendChild(button);
+        createNotebookButton(notebookNames[index], notebook, index);
     });
 }
 
+function updateNotebookButtons(index) {
+    // Select all notebook buttons
+    var notebookButtons = document.getElementsByClassName('notebookButton');
+
+    // Create a copy of the collection to avoid live collection issues
+    var notebookButtonsCopy = Array.prototype.slice.call(notebookButtons);
+
+    // Loop through each notebook button and update its class
+    notebookButtonsCopy.forEach(function(button, i) {
+        if (i === index) {
+            // If this is the notebook with the correct index, set its class to 'notebookButtonSelected'
+            button.className = 'notebookButtonSelected';
+        } else {
+            // Otherwise, set its class to 'notebookButtonUnselected'
+            button.className = 'notebookButtonUnselected';
+        }
+    });
+}
+
+Notebooks();
+updateNotebookButtons(0);
+
 document.getElementById('create-note-button').addEventListener('click', MakeNewNote);
-document.getElementById('create-notebook-button').addEventListener('click', MakeNewNotebook); //TODO
-document.getElementById('notebooks').addEventListener('click', Notebooks); //TODO
+document.getElementById('create-notebook-button').addEventListener('click', MakeNewNotebook);
 
+var renameNotebookModal = document.getElementById('renameNotebookModal');
+var renameNotebookButton = document.getElementById('option3');
+var closeModalSpan = document.getElementsByClassName('close-button')[0];
 
-document.getElementById('save').addEventListener('click', Save); //Incomplete
-document.getElementById('login-button').addEventListener('click', MakeLoginButton); //Incomplete
-document.getElementById('signup-button').addEventListener('click', MakeSignupButton); //Incomplete
+renameNotebookButton.onclick = function() {
+  renameNotebookModal.style.display = 'block';
+}
+
+closeModalSpan.onclick = function() {
+  renameNotebookModal.style.display = 'none';
+  newNotebookNameInput.value = '';
+}
+
+window.onclick = function(event) {
+  if (event.target == renameNotebookModal) {
+    renameNotebookModal.style.display = 'none';
+    newNotebookNameInput.value = '';
+  }
+}
+
+var renameNotebookSubmitButton = document.getElementById('renameNotebookButton');
+var newNotebookNameInput = document.getElementById('newNotebookName');
+renameNotebookSubmitButton.onclick = function() {
+  var newName = newNotebookNameInput.value;
+  if (newName) {
+    var notebookButton = document.querySelector('.notebookButtonSelected');
+    if (notebookButton) {
+      notebookButton.textContent = newName;
+    }
+    renameNotebook(CurrentNotebook, newName);
+    renameNotebookModal.style.display = 'none';
+    newNotebookNameInput.value = '';
+  }
+}
+
+//-----------------------------------------------------------------------------------------------
+
+function createNotebookButton(name, notebook, index) {
+    var notebooksMenu = document.getElementById('notebooks-menu');
+    var button = document.createElement('li');
+    button.className = 'notebookButton';
+    button.textContent = name;
+    button.onclick = function() {
+        var resetButtons = document.getElementsByClassName('notebookButtonUnselected')
+        for (var i =  0; i < resetButtons.length; i++) {
+            resetButtons[i].className = 'notebookButton';
+        }
+        var resetButtons = document.getElementsByClassName('notebookButtonSelected')
+        for (var i =  0; i < resetButtons.length; i++) {
+            resetButtons[i].className = 'notebookButton';
+        }
+        updateNotebookButtons(index);
+        var container = document.getElementById('container');
+        container.innerHTML = '';
+        CurrentNotebook = index;
+        notebook.forEach(function(note) {
+            container.appendChild(note);
+        });
+    };
+    notebooksMenu.appendChild(button);
+    return button;
+}
+
+function renameNotebook(index, newName) {
+    if (index >=  0 && index < notebookNames.length) {
+        notebookNames[index] = newName;
+        var notebooksMenu = document.getElementById('notebooks-menu');
+        var buttons = notebooksMenu.getElementsByClassName('notebookButton');
+    }
+}
+
+MakeNewNotebook();
+notebooks();
