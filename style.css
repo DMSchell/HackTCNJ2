@@ -5,14 +5,14 @@ body {
     background-color: #000000; /* This line sets the background color to black */
 }
 header {
-    background-color: #f8f9fa;
+    background-color: #000000;
     color: #343a40;
     padding:  20px;
     text-align: center;
 }
 nav {
     background-color: #000000;
-    color: white;
+    color: black;
     padding:  15px;
 }
 nav ul {
