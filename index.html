@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic Website Layout</title>
+    <script src="lib/index.js" type="module"></script>
+    <script src="templates/translator.js" type="module"></script>
 </head>
 <body>
     <header>
@@ -45,13 +47,6 @@
                 <label for="signup-password">Password:</label>
                 <input type="fpassword" id="signup-password" name="signup-password" required>
                 <button id="signup-submit" type="submit">Sign up</button>
-                <script> 
-                    const { spawn } = require('child_process'); 
-                   
-                    document.getElementById('run-button').addEventListener('submit', () => { 
-                      spawn('node', ['lib/index.js']); 
-                    }); 
-                </script> 
             </form>
         </div>
     </div>
