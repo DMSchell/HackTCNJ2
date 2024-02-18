@@ -207,7 +207,7 @@ arrows.forEach(function(arrow) {
     arrow.addEventListener('mousedown', handleArrowResize);
 });
 
-// DELETE THIS PROBABLY!!!!!!!!!!!!!
+// DELETE THIS IF THERE"S A RANDOM ARROW FLOATING ON THE SCREEN
 createArrow(50,  50,  200,  200);
 
 function MakeNewNote() {
