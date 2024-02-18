@@ -126,15 +126,15 @@ function MakeNewNote() {
     noteSizer.textContent = ' ';
     newNote.appendChild(noteSizer);
 
-
+    /*
     var button = document.createElement('button');
     button.textContent = 'AI Expand'; // Set the button text
     button.className = 'note-button'; // Add a class for styling
     newNote.appendChild(button); // Append the button to the note
-
+    */
 
     // Set the contenteditable attribute of the parent element to false
-    newNote.setAttribute('contenteditable', 'false');
+    // newNote.setAttribute('contenteditable', 'false');
 
     /*
     // Attach the event listener to the button
