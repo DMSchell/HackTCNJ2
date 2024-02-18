@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin:  0;
     padding:  0;
-    background-color: #000000; /* Set the background color to black */
+    background-color: #fff; /* Set the background color to black */
 }
 header {
     background-color: #f8f9fa;
@@ -10,7 +10,7 @@ header {
     .arrow {
         position: absolute;
         cursor: move;
-        border:  1px solid #000;
+        border:  1px solid #343a40;
         background-color: #fff;
         padding:  5px;
         z-index:  1000;
@@ -24,8 +24,8 @@ header {
     text-align: center;
 }
 nav {
-    background-color: #000000;
-    color: white;
+    background-color: #343a40;
+    color: #343a40;
     padding:  15px;
 }
 nav ul {
@@ -52,10 +52,10 @@ main {
     padding:  20px;
 }
 footer {
-    background-color: #000000;
+    background-color: #f9f9f9;
     padding:  20px;
     text-align: center;
-    color: #ffffff; /* This line sets the text color to white */
+    color: #ccc; /* This line sets the text color to white */
 }
 
 .text-box-container {
@@ -91,7 +91,7 @@ footer {
     margin:   2 auto;
     margin-bottom:   100px;
     text-align: left;
-    background-color: #f9f9f9;
+    background-color: #fff;
     border-radius:  0px  0px  5px  5px;
     cursor: text;
 }

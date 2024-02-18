@@ -1,5 +1,8 @@
 
-/*import { GoogleGenerativeAI } from "@google/generative-ai";
+/*
+//This should hopefully take the place of import
+const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require('@google/generative-ai');
+ { GoogleGenerativeAI } from "@google/generative-ai";
  
 const Your_API_Key = "AIzaSyDCKm38Gqmwu1YywB6paoSkVXlJ-qLHKUk"
 const genAI = new GoogleGenerativeAI(Your_API_Key);
@@ -8,10 +11,11 @@ const genAI = new GoogleGenerativeAI(Your_API_Key);
 var NoteContainer = document.getElementById('container');
 var DragTarget = null;
 
+const notebooks = [];
+notebooks[0] = [];
+var CurrentNotebook = 0;
 
 NoteContainer.addEventListener('mousedown', function(event) {
-
-
     if (event.target.classList.contains('note-dragger')) {
         DragTarget = event.target;
         var startMousePos = { x: event.clientX, y: event.clientY };
@@ -125,8 +129,10 @@ function MakeNewNote() {
     var noteSizer = document.createElement('div');
     noteSizer.className = 'note-sizer';
     noteSizer.textContent = ' ';
+    noteSizer.setAttribute('contenteditable', 'false');
     newNote.appendChild(noteSizer);
 
+    notebooks[CurrentNotebook][notebooks[CurrentNotebook].length] = newNoteDragger;
     
     var button = document.createElement('button');
     button.textContent = 'AI Expand'; // Set the button text
@@ -347,10 +353,47 @@ function MakeSignupButton() {
     }
 }
 
+function MakeNewNotebook(){
+    CurrentNotebook = notebooks.length
+    notebooks[CurrentNotebook] = [];
+    // Clear the container
+    var container = document.getElementById('container');
+    container.innerHTML = '';
+    
+    // Set the current notebook
+    console.log('Switched to Notebook ' + (CurrentNotebook +   1));
+}
+
+function Notebooks(){
+    var notebooksMenu = document.getElementById('notebooks-menu');
+
+    // Clear the container before adding new buttons
+    notebooksMenu.innerHTML = '';
+
+    // Create a button for each notebook
+    notebooks.forEach(function(notebook, index) {
+        var button = document.createElement('button');
+        button.textContent = 'Notebook ' + (index +   1);
+        button.onclick = function() {
+            // Clear the container
+            var container = document.getElementById('container');
+            container.innerHTML = '';
+
+            // Set the current notebook
+            CurrentNotebook = index;
+            
+            notebook.forEach(function(note) {
+                container.appendChild(note);
+
+            });
+        };
+        notebooksMenu.appendChild(button);
+    });
+}
 
 document.getElementById('create-note-button').addEventListener('click', MakeNewNote);
-document.getElementById('create-notebook-button').addEventListener('click', MakeNewNote); //TODO
-document.getElementById('notebooks').addEventListener('click', MakeNewNote); //TODO
+document.getElementById('create-notebook-button').addEventListener('click', MakeNewNotebook); //TODO
+document.getElementById('notebooks').addEventListener('click', Notebooks); //TODO
 
 
 document.getElementById('save').addEventListener('click', Save); //Incomplete
