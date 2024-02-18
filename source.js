@@ -6,7 +6,6 @@ const genAI = new GoogleGenerativeAI(Your_API_Key);
 
 var NoteContainer = document.getElementById('container');
 var DragTarget = null;
-var gridSize = 20;
 
 
 NoteContainer.addEventListener('mousedown', function(event) {
