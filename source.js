@@ -1,23 +1,33 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
+ 
+const Your_API_Key = "AIzaSyDCKm38Gqmwu1YywB6paoSkVXlJ-qLHKUk"
+const genAI = new GoogleGenerativeAI(Your_API_Key);
+
+
 var NoteContainer = document.getElementById('container');
 var DragTarget = null;
 var gridSize = 20;
 
+
 NoteContainer.addEventListener('mousedown', function(event) {
+
 
     if (event.target.classList.contains('note-dragger')) {
         DragTarget = event.target;
         var startMousePos = { x: event.clientX, y: event.clientY };
         var startDivPos = { x: DragTarget.offsetLeft, y: DragTarget.offsetTop };
 
+
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
+
 
         function onMouseMove(event) {
             var newPosition = {
                 x: startDivPos.x + (event.clientX - startMousePos.x),
                 y: startDivPos.y + (event.clientY - startMousePos.y)
             };
-        
+       
             //make sure the note stays within the container
             var containerRect = container.getBoundingClientRect();
             if (newPosition.x <  0) {
@@ -25,19 +35,20 @@ NoteContainer.addEventListener('mousedown', function(event) {
             } else if (newPosition.x + DragTarget.offsetWidth > containerRect.width) {
                 newPosition.x = containerRect.width - DragTarget.offsetWidth;
             }
-        
+       
             if (newPosition.y <  0) {
                 newPosition.y =  0;
             } else if (newPosition.y + DragTarget.offsetHeight > containerRect.height) {
                 newPosition.y = containerRect.height - DragTarget.offsetHeight;
             }
-        
+       
             //change the position of the note
             //sometimes the whole container moves so that's not good
             DragTarget.style.left = newPosition.x + 'px';
             DragTarget.style.top = newPosition.y + 'px';
-            
+           
         }
+
 
         function onMouseUp() {
             document.removeEventListener('mousemove', onMouseMove);
@@ -50,11 +61,13 @@ NoteContainer.addEventListener('mousedown', function(event) {
         var startMousePos = { x: event.clientX, y: event.clientY };
         var startSize = { width: DragTarget.parentElement.offsetWidth, height: DragTarget.parentElement.offsetHeight };
 
+
         function onMouseMove(event) {
             var newSize = {
                 width: startSize.width + (event.clientX - startMousePos.x),
                 height: startSize.height + (event.clientY - startMousePos.y)
             };
+
 
             // Update the new-note size
             DragTarget.parentElement.style.width = newSize.width + 'px';
@@ -63,8 +76,10 @@ NoteContainer.addEventListener('mousedown', function(event) {
             DragTarget.parentElement.parentElement.style.height = newSize.height + 'px';
         }
 
+
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
+
 
         function onMouseUp() {
             document.removeEventListener('mousemove', onMouseMove);
@@ -72,6 +87,7 @@ NoteContainer.addEventListener('mousedown', function(event) {
         }
     }
 });
+
 
 // Create a custom context menu
 var contextMenu = document.createElement('div');
@@ -87,11 +103,13 @@ contextMenu.style.fontSize = '12';
 contextMenu.innerHTML = '<ul><li id="option1">Create a new note</li></ul>';
 document.body.appendChild(contextMenu);
 
+
 // Add event listeners to the document
 document.addEventListener('contextmenu', function(event) {
     event.preventDefault();
     MakeNewNote();
 });
+
 
 function MakeNewNote() {
     var newNoteDragger = document.createElement('div');
@@ -107,7 +125,46 @@ function MakeNewNote() {
     noteSizer.className = 'note-sizer';
     noteSizer.textContent = ' ';
     newNote.appendChild(noteSizer);
+
+
+    var button = document.createElement('button');
+    button.textContent = 'AI Expand'; // Set the button text
+    button.className = 'note-button'; // Add a class for styling
+    newNote.appendChild(button); // Append the button to the note
+
+
+    // Set the contenteditable attribute of the parent element to false
+    newNote.setAttribute('contenteditable', 'false');
+
+
+    // Attach the event listener to the button
+    // LOOK AT POSSIBLE ERRORS YOU FOOL
+    button.addEventListener("click", send_text_to_ai);
+    function send_text_to_ai() {
+        // THIS COULD BE AN ERROR THAT NEW NOW IS IN QUOTES
+        var note_text = document.getElementById("new-note").innerText;
+        note_text = note_text.replace('AI Expand', '');
+        document.getElementById("new-note").innerText = run(note_text);
+    }
 }
+
+
+async function run(input) {
+  // For text-only input, use the gemini-pro model
+  const model = genAI.getGenerativeModel({ model: "gemini-pro"});
+
+
+  const prompt = input;
+
+
+  const result = await model.generateContent(prompt);
+  const response = await result.response;
+  const text = response.text();
+  return text;
+}
+
+
+
 
 var UserName = null;
 function Save() {
@@ -122,11 +179,14 @@ function MakeLoginButton() {
     var modal = document.getElementById('login-modal');
     var span = document.getElementsByClassName('login-close-button')[0];
 
+
     modal.style.display = 'block';
+
 
     span.onclick = function() {
         modal.style.display = 'none';
     }
+
 
     window.onclick = function(event) {
         if (event.target == modal) {
@@ -137,29 +197,36 @@ function MakeLoginButton() {
 document.getElementById('login-form').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent the form from submitting normally
 
+
     // Retrieve the username and password from the form
     var username = document.getElementById('username').value;
     var password = document.getElementById('password').value;
 
+
     // You can now use the username and password for authentication
     console.log('Username:', username);
     console.log('Password:', password);
+
 
     // Close the modal after successful login (or handle authentication failure)
     var modal = document.getElementById('login-modal');
     modal.style.display = 'none';
 });
 
+
 //signing up
 function MakeSignupButton() {
     var modal = document.getElementById('signup-modal');
     var span = document.getElementsByClassName('signup-close-button')[0];
 
+
     modal.style.display = 'block';
+
 
     span.onclick = function() {
         modal.style.display = 'none';
     }
+
 
     window.onclick = function(event) {
         if (event.target == modal) {
@@ -168,9 +235,11 @@ function MakeSignupButton() {
     }
 }
 
+
 document.getElementById('create-note-button').addEventListener('click', MakeNewNote);
 document.getElementById('create-notebook-button').addEventListener('click', MakeNewNote); //TODO
 document.getElementById('notebooks').addEventListener('click', MakeNewNote); //TODO
+
 
 document.getElementById('save').addEventListener('click', Save); //Incomplete
 document.getElementById('login-button').addEventListener('click', MakeLoginButton); //Incomplete
