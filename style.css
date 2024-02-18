@@ -2,11 +2,24 @@ body {
     font-family: Arial, sans-serif;
     margin:  0;
     padding:  0;
-    background-color: #000000; /* This line sets the background color to black */
+    background-color: #000000; /* This line sets the background color to black Yeah no duh sherlock */
 }
 header {
-    background-color: #000000;
+    background-color: #f8f9fa;
     color: #343a40;
+    .arrow {
+        position: absolute;
+        cursor: move;
+        border:  1px solid #000;
+        background-color: #fff;
+        padding:  5px;
+        z-index:  1000;
+    }
+
+    .arrow.resizable {
+        resize: both;
+        overflow: auto;
+    }
     padding:  20px;
     text-align: center;
 }
