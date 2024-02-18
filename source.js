@@ -1,9 +1,9 @@
-/*
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
  
 const Your_API_Key = "AIzaSyDCKm38Gqmwu1YywB6paoSkVXlJ-qLHKUk"
 const genAI = new GoogleGenerativeAI(Your_API_Key);
-*/
+
 
 var NoteContainer = document.getElementById('container');
 var DragTarget = null;
@@ -126,17 +126,17 @@ function MakeNewNote() {
     noteSizer.textContent = ' ';
     newNote.appendChild(noteSizer);
 
-    /*
+    
     var button = document.createElement('button');
     button.textContent = 'AI Expand'; // Set the button text
     button.className = 'note-button'; // Add a class for styling
     newNote.appendChild(button); // Append the button to the note
-    */
+    
 
     // Set the contenteditable attribute of the parent element to false
     // newNote.setAttribute('contenteditable', 'false');
 
-    /*
+    
     // Attach the event listener to the button
     // LOOK AT POSSIBLE ERRORS YOU FOOL
     button.addEventListener("click", send_text_to_ai);
@@ -146,10 +146,9 @@ function MakeNewNote() {
         note_text = note_text.replace('AI Expand', '');
         document.getElementById("new-note").innerText = run(note_text);
     }
-    */
+    
 }
 
-/*
 async function run(input) {
   // For text-only input, use the gemini-pro model
   const model = genAI.getGenerativeModel({ model: "gemini-pro"});
@@ -163,9 +162,6 @@ async function run(input) {
   const text = response.text();
   return text;
 }
-
-*/
-
 
 var UserName = null;
 function Save() {
